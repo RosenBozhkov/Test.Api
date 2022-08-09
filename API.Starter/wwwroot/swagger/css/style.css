@@ -1,0 +1,12 @@
+﻿.swagger-ui .topbar-wrapper .link {
+    background-image: url('logo.png');
+    background-repeat: no-repeat;
+    height: 56px;
+    margin-left: -30px;
+    transform: scale(0.8);
+    cursor: pointer;
+}
+
+.swagger-ui .topbar-wrapper .link img {
+    display: none !important;
+}

@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>10</LangVersion>
+	</PropertyGroup>
+
+	<!--https://developercommunity.visualstudio.com/t/nuget-package-manager-does-not-handle-floating-ver/882124-->
+	<ItemGroup>
+		<PackageReference Include="inacs.v8.ExceptionCollector" Version="6.0.16" />
+		<PackageReference Include="inacs.v8.ExposeDeveloper" Version="6.0.39" />
+		<PackageReference Include="inacs.v8.JournalLogs" Version="6.0.3" />
+		<PackageReference Include="inacs.v8.MailClient" Version="6.0.4" />
+		<PackageReference Include="inacs.v8.Metrics" Version="6.0.3" />
+		<PackageReference Include="inacs.v8.ServiceDiscovery" Version="5.4.1" />
+		<PackageReference Include="inacs.v8.nuget.Kafka" Version="5.0.6" />
+		<PackageReference Include="inacs.v8.StoredProcedureBuilder" Version="6.0.3" />
+		<PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Messages.Designer.cs">
+	    <DependentUpon>Messages.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Messages.resx">
+	    <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

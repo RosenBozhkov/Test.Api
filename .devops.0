@@ -1,0 +1,15 @@
+{
+"ImageName": "i8.demo.swagger.dev.mk.%s",
+"ContainerName": "i8.demo.swagger.dev.mk.%s",
+"ContainerNumber": "1",
+"DeployDir": "/opt/cloud.euroins.mk-deploy/deploy",
+"DeploymentType": "dev",
+"DockerExtra": "--cpus=1 --memory=200m",
+"ExposeStart": "280",
+"InnerExposePort": "80",
+"ExposePorts": "-p %s:%s:%s",
+"LogsDir" : "/opt/cloud.euroins.mk-deploy/docker.swap",
+"Executable": "API.Starter.dll",
+"ProjectFile": "API.Starter.sln",
+"RunTests": "false"
+}
