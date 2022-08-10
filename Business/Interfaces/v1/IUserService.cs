@@ -1,4 +1,5 @@
 ﻿using Business.Models.v1;
+using Persistence.Entities.v1;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,5 @@ public interface IUserService
     Task<UserResponse> RegisterAsync(UserRequest model);
     Task<UserResponse> GetByIdAsync(Guid id);
     Task<string> LoginAsync(UserRequest model);
-
+    Task<User> GetUserByIdAsync(Guid id);
 }

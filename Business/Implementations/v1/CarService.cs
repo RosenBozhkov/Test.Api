@@ -27,6 +27,7 @@ public class CarService : ICarService
     private readonly RequestState _requestState;
     private readonly ILogger<CarService> _logger;
     private readonly IModelService _modelService;
+    private readonly IUserService _userService;
 
     /// <summary>
     /// Constructor with DI
@@ -38,7 +39,7 @@ public class CarService : ICarService
     /// <param name="logger"></param>
     /// <param name="modelService"></param>
     public CarService(ICarRepository carRepository, IValidatorService validatorService, IMapper mapper,
-        RequestState requestState, ILogger<CarService> logger, IModelService modelService)
+        RequestState requestState, ILogger<CarService> logger, IModelService modelService, IUserService userService)
     {
         _carRepository = carRepository;
         _validatorService = validatorService;
@@ -46,6 +47,7 @@ public class CarService : ICarService
         _requestState = requestState;
         _logger = logger;
         _modelService = modelService;
+        _userService = userService;
     }
 
     /// <summary>
@@ -54,10 +56,9 @@ public class CarService : ICarService
     /// <param name="id"></param>
     /// <returns> CarResponse </returns>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<CarResponse> GetByIdAsync(Guid id)
+    public async Task<CarResponse> GetResponseByIdAsync(Guid id)
     {
-        Car car = await _carRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Car car = await GetByIdAsync(id);
 
         return _mapper.Map<CarResponse>(car);
     }
@@ -68,7 +69,7 @@ public class CarService : ICarService
     /// <param name="id"></param>
     /// <returns> Car </returns>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<Car> GetCarByIdAsync(Guid id)
+    public async Task<Car> GetByIdAsync(Guid id)
     {
         Car car = await _carRepository.GetByIdAsync(id)
                   ?? throw new NotFoundException(Messages.ResourceNotFound);
@@ -79,7 +80,6 @@ public class CarService : ICarService
     /// <summary>
     /// Get all cars
     /// </summary>
-    /// <returns></returns>
     public async Task<IList<CarResponse>> GetAllAsync()
     {
         var cars = await _carRepository.GetAllAsync();
@@ -90,14 +90,15 @@ public class CarService : ICarService
     /// Create a car
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
-    public async Task<CarResponse> CreateAsync(CarRequest model)
+    public async Task<CarResponse> CreateAsync(CarCreateRequest model)
     {
         _validatorService.Validate(model);
 
-        var theModel = await _modelService.CreateIfNotExist(model.ModelName, model.MakeName);
+        User owner = await _userService.GetUserByIdAsync(model.UserId);
 
-        Car car = new() { YearOfCreation = model.YearOfCreation, Model = theModel, Modifier = model.Modifier };
+        Model carModel = await _modelService.CreateIfNotExist(model.ModelName, model.MakeName);
+
+        Car car = new() { YearOfCreation = model.YearOfCreation, Model = carModel, Modifier = model.Modifier, User = owner };
 
         _carRepository.Add(car);
         await _carRepository.SaveChangesAsync();
@@ -106,19 +107,19 @@ public class CarService : ICarService
     }
 
     /// <summary>
-    /// Update a car
+    /// Update a Car's owner and repairs cost modifier
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="model"></param>
-    /// <returns></returns>
-    public async Task<CarResponse> UpdateAsync(Guid id, CarRequest model)
+    public async Task<CarResponse> UpdateAsync(CarUpdateRequest model)
     {
         _validatorService.Validate(model);
 
-        Car car = await _carRepository.GetByIdAsync(id)
-            ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Car car = await GetByIdAsync(model.Id);
 
-        car.YearOfCreation = model.YearOfCreation;
+        User newOwner = await _userService.GetUserByIdAsync(model.UserId);
+
+        car.User = newOwner;
+        car.Modifier = model.Modifier;
         await _carRepository.SaveChangesAsync();
 
         return _mapper.Map<CarResponse>(car);

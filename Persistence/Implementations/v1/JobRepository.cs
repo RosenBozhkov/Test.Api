@@ -94,7 +94,7 @@ public class JobRepository : IJobRepository
     /// Validates that all ids are valid Job ids
     /// </summary>
     /// <param name="jobIds"></param>
-    public ICollection<Job> ValidateJobsExist(List<int> jobIds)
+    public ICollection<Job> GetValidJobs(List<int> jobIds)
     {
         List<Job> jobList = new();
 

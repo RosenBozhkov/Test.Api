@@ -17,36 +17,30 @@ public interface ICarService
     /// Get By Id
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
-    Task<CarResponse> GetByIdAsync(Guid id);
+    Task<CarResponse> GetResponseByIdAsync(Guid id);
     /// <summary>
     /// Get By Id
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
-    Task<Car> GetCarByIdAsync(Guid id);
+    Task<Car> GetByIdAsync(Guid id);
     /// <summary>
     /// Get all
     /// </summary>
-    /// <returns></returns>
     Task<IList<CarResponse>> GetAllAsync();
     /// <summary>
     /// Create car
     /// </summary>
     /// <param name="model"></param>
-    /// <returns></returns>
-    Task<CarResponse> CreateAsync(CarRequest model);
+    Task<CarResponse> CreateAsync(CarCreateRequest model);
     /// <summary>
     /// Update car
     /// </summary>
     /// <param name="id"></param>
     /// <param name="model"></param>
-    /// <returns></returns>
-    Task<CarResponse> UpdateAsync(Guid id, CarRequest model);
+    Task<CarResponse> UpdateAsync(CarUpdateRequest model);
     /// <summary>
     /// Delete Car
     /// </summary>
     /// <param name="id"></param>
-    /// <returns></returns>
     Task DeleteAsync(Guid id);
 }

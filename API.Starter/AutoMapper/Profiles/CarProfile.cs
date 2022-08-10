@@ -10,7 +10,7 @@ internal class CarProfile : Profile
 {
     public CarProfile()
     {
-        CreateMap<CarRequest, Car>();
+        CreateMap<CarCreateRequest, Car>();
         CreateMap<Car, CarResponse>();
     }
 }

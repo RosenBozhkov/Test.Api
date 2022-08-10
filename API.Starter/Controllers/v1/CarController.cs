@@ -84,7 +84,7 @@ public class CarController : ControllerBase
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(GetByIdAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        CarResponse car = await _carService.GetByIdAsync(id);
+        CarResponse car = await _carService.GetResponseByIdAsync(id);
 
         return new ResponseContent<CarResponse>
         {
@@ -106,7 +106,7 @@ public class CarController : ControllerBase
     [ProducesDefaultResponseType(typeof(ResponseContent))]
     // [HideRequestBody]
     // [HideResponseBody]
-    public async Task<ResponseContent<CarResponse>> CreateAsync(CarRequest car)
+    public async Task<ResponseContent<CarResponse>> CreateAsync(CarCreateRequest car)
     {
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(CreateAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
@@ -131,7 +131,7 @@ public class CarController : ControllerBase
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ResponseContent<CarResponse>), 200)]
     [ProducesDefaultResponseType(typeof(ResponseContent))]
-    public async Task<ResponseContent<CarResponse>> UpdateAsync(Guid id, CarRequest car)
+    public async Task<ResponseContent<CarResponse>> UpdateAsync(Guid id, CarCreateRequest car)
     {
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(UpdateAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);

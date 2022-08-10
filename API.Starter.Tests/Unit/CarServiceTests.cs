@@ -23,6 +23,7 @@ public class CarServiceTests
     private readonly Mock<ICarRepository> _carRepository;
     private readonly Mock<IValidatorService> _validatorService;
     private readonly Mock<IModelService> _modelService;
+    private readonly Mock<IUserService> _userService;
     private readonly RequestState _requestState;
 
     public CarServiceTests()
@@ -30,11 +31,12 @@ public class CarServiceTests
         _carRepository = new Mock<ICarRepository>();
         _validatorService = new Mock<IValidatorService>();
         _modelService = new Mock<IModelService>();
+        _userService = new Mock<IUserService>();
         _requestState = new RequestState(Guid.NewGuid());
         IMapper mapper = new MapperConfiguration(configuration => { configuration.AddProfile(new CarProfile()); })
             .CreateMapper();
  #pragma warning disable CS8625
-        _carService = new CarService(_carRepository.Object, _validatorService.Object, mapper, _requestState, null, _modelService.Object);
+        _carService = new CarService(_carRepository.Object, _validatorService.Object, mapper, _requestState, null, _modelService.Object,_userService.Object);
  #pragma warning restore CS8625
     }
 
@@ -75,7 +77,7 @@ public class CarServiceTests
         _carRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync((Car?)null);
 
         NotFoundException ex =
-            await Assert.ThrowsAsync<NotFoundException>(async () => await _carService.GetByIdAsync(id));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await _carService.GetResponseByIdAsync(id));
             
         Assert.Equal("Resource not found", ex.Message);
     }

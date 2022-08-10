@@ -40,8 +40,14 @@ public class VisitService : IVisitService
     /// <param name="mapper"></param>
     /// <param name="requestState"></param>
     /// <param name="logger"></param>
-    public VisitService(IVisitRepository visitRepository, IValidatorService validatorService, IMapper mapper,
-        RequestState requestState, ILogger<VisitService> logger, ICarService carService, IJobRepository jobRepository)
+    public VisitService(
+        IVisitRepository visitRepository,
+        IValidatorService validatorService,
+        IMapper mapper,
+        RequestState requestState,
+        ILogger<VisitService> logger,
+        ICarService carService,
+        IJobRepository jobRepository)
     {
         _visitRepository = visitRepository;
         _validatorService = validatorService;
@@ -84,10 +90,10 @@ public class VisitService : IVisitService
     /// <param name="model"></param>
     public async Task<VisitResponse> CreateAsync(VisitRegisterRequest model)
     {
-        Car car = await _carService.GetCarByIdAsync(model.CarId);
+        Car car = await _carService.GetByIdAsync(model.CarId);
 
-        //If flow is Ok just change method name to GetValidJobs
-        ICollection<Job> jobs = _jobRepository.ValidateJobsExist(model.JobIds.ToList());
+        //Flow is not OK but i keep it
+        ICollection<Job> jobs = _jobRepository.GetValidJobs(model.JobIds);
 
         float sum = jobs.Select(j => j.Price).Sum();
         float totalSum = sum * car.Modifier;

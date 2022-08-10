@@ -90,13 +90,12 @@ public class JobService : IJobService
     /// <summary>
     /// Update a job
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="model"></param>
-    public async Task<JobResponse> UpdateAsync(int id, JobUpdateRequest model)
+    public async Task<JobResponse> UpdateAsync(JobUpdateRequest model)
     {
         _validatorService.Validate(model);
 
-        Job job = await _jobRepository.GetByIdAsync(id)
+        Job job = await _jobRepository.GetByIdAsync(model.Id)
             ?? throw new NotFoundException(Messages.ResourceNotFound);
 
         job.Price = model.Price;

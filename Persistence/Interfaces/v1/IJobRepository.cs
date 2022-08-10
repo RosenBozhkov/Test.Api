@@ -46,5 +46,5 @@ public interface IJobRepository
     /// Validates that all ids are valid Job ids
     /// </summary>
     /// <param name="jobIds"></param>
-    ICollection<Job> ValidateJobsExist(List<int> jobIds);
+    ICollection<Job> GetValidJobs(List<int> jobIds);
 }

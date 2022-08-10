@@ -59,11 +59,23 @@ public class UserService : IUserService
     /// <exception cref="NotFoundException"></exception>
     public async Task<UserResponse> GetByIdAsync(Guid id)
     {
-        User user = await _userRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        User user = await GetUserByIdAsync(id);
 
         var result = _mapper.Map<UserResponse>(user);
         return result;
+    }
+
+    /// <summary>
+    /// Get DB user by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="NotFoundException"></exception>
+    public async Task<User> GetUserByIdAsync(Guid id)
+    {
+        User user = await _userRepository.GetByIdAsync(id)
+                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+
+        return user;
     }
 
     /// <summary>
