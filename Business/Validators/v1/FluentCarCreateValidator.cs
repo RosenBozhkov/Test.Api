@@ -5,15 +5,15 @@ using FluentValidation;
 namespace Business.Validators.v1;
 
 /// <summary>
-/// Fluent validator for <c cref="CarRequest"/>
+/// Fluent validator for <c cref="CarCreateRequest"/>
 /// </summary>
 [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
-public class FluentCarValidator : AbstractValidator<CarRequest>
+public class FluentCarCreateValidator : AbstractValidator<CarCreateRequest>
 {
     /// <summary>
     /// Fluent validator constructor for CarRequest
     /// </summary>
-    public FluentCarValidator()
+    public FluentCarCreateValidator()
     {
         RuleFor(x => x.YearOfCreation)
             .ExclusiveBetween(1930, 2024)

@@ -19,5 +19,5 @@ public class VisitRegisterRequest
     /// <summary>
     /// All Jobs of a Visit to the shop (nav prop)
     /// </summary>
-    public ICollection<int> JobIds { get; set; } = new List<int>();
+    public List<int> JobIds { get; set; } = new List<int>();
 }

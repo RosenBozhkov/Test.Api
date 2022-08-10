@@ -8,12 +8,12 @@ namespace Business.Validators.v1;
 /// Fluent validator for <c cref="VisitFinishRequest"/>
 /// </summary>
 [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
-public class FluentFinishVisitRequest : AbstractValidator<VisitFinishRequest>
+public class FluentVisitFinishRequest : AbstractValidator<VisitFinishRequest>
 {
     /// <summary>
     /// Fluent validator constructor for VisitFinishRequest
     /// </summary>
-    public FluentFinishVisitRequest()
+    public FluentVisitFinishRequest()
     {
         RuleFor(x => x.AdditionalCost)
           .GreaterThan(0)

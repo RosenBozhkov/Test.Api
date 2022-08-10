@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Business.Models.v1;
 
+/// <summary>
+/// Request for updating a Job
+/// </summary>
 public class JobUpdateRequest
 {
+    /// <summary>
+    /// Job id
+    /// </summary>
+    public int Id { get; set; }
     /// <summary>
     /// Basic price for a Job
     /// </summary>

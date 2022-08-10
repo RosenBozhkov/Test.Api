@@ -11,12 +11,12 @@ namespace Business.Validators.v1;
 /// <summary>
 /// Fluent validator for <c cref="JobUpdateRequest"/>
 /// </summary>
-public class FluentUpdateJobValidator : AbstractValidator<JobUpdateRequest>
+public class FluentJobUpdateValidator : AbstractValidator<JobUpdateRequest>
 {
     /// <summary>
     /// Fluent validator constructor for JobRequest
     /// </summary>
-    public FluentUpdateJobValidator()
+    public FluentJobUpdateValidator()
     {
         RuleFor(x => x.Price)
           .GreaterThan(0)

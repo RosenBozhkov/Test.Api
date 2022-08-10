@@ -11,12 +11,12 @@ namespace Business.Validators.v1;
 /// <summary>
 /// Fluent validator for <c cref="JobCreateRequest"/>
 /// </summary>
-public class FluentCreateJobValidator : AbstractValidator<JobCreateRequest>
+public class FluentJobCreateValidator : AbstractValidator<JobCreateRequest>
 {
     /// <summary>
     /// Fluent validator constructor for JobRequest
     /// </summary>
-    public FluentCreateJobValidator()
+    public FluentJobCreateValidator()
     {
         RuleFor(x => x.Name)
             .MinimumLength(5)

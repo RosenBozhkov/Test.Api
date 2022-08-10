@@ -1,4 +1,5 @@
 ﻿using inacs.v8.nuget.DevAttributes;
+using System;
 
 namespace Business.Models.v1;
 
@@ -6,7 +7,7 @@ namespace Business.Models.v1;
 /// Car request DTO
 /// </summary>
 [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
-public class CarRequest
+public class CarCreateRequest
 {
     /// <summary>
     /// Car Year of creation
@@ -15,7 +16,6 @@ public class CarRequest
     /// <summary>
     /// Car Model
     /// </summary>
-    //[HideFromSwagger]
     public string ModelName { get; set; } = string.Empty;
     /// <summary>
     /// Car Make
@@ -25,4 +25,8 @@ public class CarRequest
     /// A price multiple is a ratio that the company uses for each car individually
     /// </summary>
     public float Modifier { get; set; }
+    /// <summary>
+    /// Car owner
+    /// </summary>
+    public Guid UserId { get; set; }
 }
