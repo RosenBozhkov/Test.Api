@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 namespace Business.Models.v1;
 
 /// <summary>
-/// Last Visit request DTO
+/// Visit request DTO for finalizing the visit
 /// </summary>
 public class VisitFinishRequest
 {
+    /// <summary>
+    /// Id of the visit
+    /// </summary>
+    public Guid Id {  get; set; }
     /// <summary>
     /// Final points of damage
     /// </summary>

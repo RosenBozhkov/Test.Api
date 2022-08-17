@@ -32,7 +32,7 @@ public interface IVisitService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="model"></param>
-    Task<VisitResponse> UpdateAsync(Guid id, VisitFinishRequest model);
+    Task<VisitResponse> UpdateAsync(VisitFinishRequest model);
     /// <summary>
     /// Delete visit
     /// </summary>

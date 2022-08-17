@@ -103,11 +103,10 @@ public class UserRepository : IUserRepository
     /// Check if username is free, throws if it is not.
     /// </summary>
     /// <param name="name"></param>
-    public async Task ValidateUsernameNotExist(string name)
+    public async Task<bool> Exists(string name)
     {
-        if (await _context.Users.AnyAsync(u => u.Username == name))
-        {
-            throw new InvalidUsernameException("User with that name already exists.");
-        }
+        bool exists = await _context.Users.AnyAsync(u => u.Username == name);
+
+        return exists;
     }
 }

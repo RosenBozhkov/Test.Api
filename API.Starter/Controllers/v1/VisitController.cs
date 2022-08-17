@@ -122,17 +122,17 @@ public class VisitController
     /// <param name="id"></param>
     /// <param name="visit"></param>
     [Anonymous]
-    [HttpPut("{id:guid}")]
+    [HttpPut()]
     [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ResponseContent<VisitResponse>), 200)]
     [ProducesDefaultResponseType(typeof(ResponseContent))]
-    public async Task<ResponseContent<VisitResponse>> ReturnCarAsync(Guid id, VisitFinishRequest visit)
+    public async Task<ResponseContent<VisitResponse>> ReturnCarAsync( VisitFinishRequest visit)
     {
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(UpdateAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        VisitResponse updated = await _visitService.UpdateAsync(id, visit);
+        VisitResponse updated = await _visitService.UpdateAsync(visit);
 
         return new ResponseContent<VisitResponse>
         {

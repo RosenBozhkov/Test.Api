@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Business.Models.v1;
 
 /// <summary>
-/// Initial Visit request DTO
+/// Visit request DTO for creating a visit
 /// </summary>
 public class VisitRegisterRequest
 {

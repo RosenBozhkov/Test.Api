@@ -49,5 +49,5 @@ public interface IUserRepository
     /// Check if username is free, throws if it is not.
     /// </summary>
     /// <param name="name"></param>
-    Task ValidateUsernameNotExist(string name);
+    Task<bool> Exists(string name);
 }

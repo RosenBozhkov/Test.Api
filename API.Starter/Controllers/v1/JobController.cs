@@ -123,17 +123,17 @@ public class JobController : ControllerBase
     /// <param name="id"></param>
     /// <param name="model"></param>
     [Anonymous]
-    [HttpPut("{id:int}")]
+    [HttpPut()]
     [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ResponseContent<JobResponse>), 200)]
     [ProducesDefaultResponseType(typeof(ResponseContent))]
-    public async Task<ResponseContent<JobResponse>> UpdateAsync(int id, JobUpdateRequest model)
+    public async Task<ResponseContent<JobResponse>> UpdateAsync(JobUpdateRequest model)
     {
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(UpdateAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        JobResponse updated = await _jobService.UpdateAsync(id, model);
+        JobResponse updated = await _jobService.UpdateAsync(model);
 
         return new ResponseContent<JobResponse>
         {

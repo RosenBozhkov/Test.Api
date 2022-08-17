@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Common.Exceptions;
+using inacs.v8.nuget.EnvHelper;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context.v1;
 using Persistence.Entities.v1;
@@ -86,7 +87,7 @@ public class JobRepository : IJobRepository
     /// Save changes
     /// </summary>
     public async Task SaveChangesAsync()
-    {
+    { 
         await _context.SaveChangesAsync();
     }
 
@@ -111,5 +112,16 @@ public class JobRepository : IJobRepository
         }
 
         return jobList;
+    }
+
+    /// <summary>
+    /// Checks if job with the given name exists in the database.
+    /// </summary>
+    /// <param name="name"></param>
+    public async Task<bool> Exists(string name)
+    {
+        bool result = await _context.Jobs.AnyAsync(j => j.Name == name);
+
+        return result;
     }
 }

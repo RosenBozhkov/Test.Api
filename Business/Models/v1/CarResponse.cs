@@ -18,6 +18,10 @@ public class CarResponse
     /// </summary>
     public Guid Id { get; set; }
     /// <summary>
+    /// Owner of the Car
+    /// </summary> 
+    public string UserName { get; set; }
+    /// <summary>
     /// Car Make
     /// </summary>
     public string ModelMakeName { get; set; } = string.Empty;

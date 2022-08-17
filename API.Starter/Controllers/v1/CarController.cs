@@ -126,17 +126,17 @@ public class CarController : ControllerBase
     /// <param name="car"></param>
     /// <returns></returns>
     [Anonymous]
-    [HttpPut("{id:guid}")]
+    [HttpPut()]
     [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(typeof(ResponseContent<CarResponse>), 200)]
     [ProducesDefaultResponseType(typeof(ResponseContent))]
-    public async Task<ResponseContent<CarResponse>> UpdateAsync(Guid id, CarCreateRequest car)
+    public async Task<ResponseContent<CarResponse>> UpdateAsync(CarUpdateRequest car)
     {
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(UpdateAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        CarResponse updated = await _carService.UpdateAsync(id, car);
+        CarResponse updated = await _carService.UpdateAsync(car);
 
         return new ResponseContent<CarResponse>
         {

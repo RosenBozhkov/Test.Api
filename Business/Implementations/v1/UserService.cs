@@ -84,7 +84,7 @@ public class UserService : IUserService
     /// <param name="model"></param>
     public async Task<UserResponse> RegisterAsync(UserRequest model)
     {
-        await _userRepository.ValidateUsernameNotExist(model.Username);
+        await ValidateUsernameNotExist(model.Username);
 
         CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
@@ -93,6 +93,16 @@ public class UserService : IUserService
         await _userRepository.SaveChangesAsync();
 
         return _mapper.Map<UserResponse>(userToRegister);
+    }
+
+    private async Task ValidateUsernameNotExist(string name)
+    {
+        bool exists = await _userRepository.Exists(name);
+
+        if (exists)
+        {
+            throw new InvalidNameException("User with that name already exists.");
+        }
     }
 
     /// <summary>

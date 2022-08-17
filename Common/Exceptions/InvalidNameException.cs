@@ -9,13 +9,13 @@ namespace Common.Exceptions;
 /// </summary>
 [Developer("Vasil Egov", "v.egov@itsoft.bg")]
 
-public class InvalidUsernameException : ClientException
+public class InvalidNameException : ClientException
 {
     /// <summary>
     /// Constructor with message and errors
     /// </summary>
     /// <param name="message"></param>
-    public InvalidUsernameException(string message) : base(message)
+    public InvalidNameException(string message) : base(message)
     {
     }
 }

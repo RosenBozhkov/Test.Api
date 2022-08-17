@@ -47,4 +47,9 @@ public interface IJobRepository
     /// </summary>
     /// <param name="jobIds"></param>
     ICollection<Job> GetValidJobs(List<int> jobIds);
+    /// <summary>
+    /// Checks if job with the given name exists in the database.
+    /// </summary>
+    /// <param name="name"></param>
+    Task<bool> Exists(string name);
 }

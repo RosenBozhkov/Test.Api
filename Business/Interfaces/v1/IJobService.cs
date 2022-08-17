@@ -30,7 +30,6 @@ public interface IJobService
     /// <summary>
     /// Update job
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="model"></param>
     Task<JobResponse> UpdateAsync(JobUpdateRequest model);
     /// <summary>

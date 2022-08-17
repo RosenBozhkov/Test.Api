@@ -92,7 +92,7 @@ public class VisitService : IVisitService
     {
         Car car = await _carService.GetByIdAsync(model.CarId);
 
-        //Flow is not OK but i keep it
+        //Flow is not OK, but i keep it
         ICollection<Job> jobs = _jobRepository.GetValidJobs(model.JobIds);
 
         float sum = jobs.Select(j => j.Price).Sum();
@@ -111,11 +111,11 @@ public class VisitService : IVisitService
     /// </summary>
     /// <param name="id"></param>
     /// <param name="model"></param>
-    public async Task<VisitResponse> UpdateAsync(Guid id, VisitFinishRequest model)
+    public async Task<VisitResponse> UpdateAsync(VisitFinishRequest model)
     {
         _validatorService.Validate(model);
 
-        Visit visit = await _visitRepository.GetByIdAsync(id)
+        Visit visit = await _visitRepository.GetByIdAsync(model.Id)
             ?? throw new NotFoundException(Messages.ResourceNotFound);
 
         ValidateAdditionalPriceReasonable(visit.TotalPrice, model.AdditionalCost);

@@ -40,34 +40,33 @@ public class CarServiceTests
  #pragma warning restore CS8625
     }
 
-    //[Fact]
-    //public async Task GetById_WhenGivenValidId_ShouldReturnCar()
-    //{
-    //    Guid id = Guid.NewGuid();
-    //    Car car = new Car
-    //    {
-    //        Id = id,
-    //        Make = "Toyota",
-    //        Model = "Corolla",
-    //        YearOfCreation = 2000
-    //    };
-    //    _carRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(car);
-    //
-    //    CarResponse expectedCar = new CarResponse
-    //    {
-    //        Id = id,
-    //        Make = "Toyota",
-    //        Model = "Corolla",
-    //        YearOfCreation = 2000
-    //    };
-    //
-    //    CarResponse actualCar = await _carService.GetByIdAsync(id);
-    //
-    //    Assert.Equal(expectedCar.Id, actualCar.Id);
-    //    Assert.Equal(expectedCar.Make, actualCar.Make);
-    //    Assert.Equal(expectedCar.Model, actualCar.Model);
-    //    Assert.Equal(expectedCar.YearOfCreation, actualCar.YearOfCreation);
-    //}
+    [Fact]
+    public async Task GetById_WhenGivenValidId_ShouldReturnCar()
+    {
+        Guid id = Guid.NewGuid();
+        Car car = new()
+        {
+            Id = id,
+            YearOfCreation = 2000,
+            Model = new Model() { Name = "Corolla", Make = new Make() { Name = "Toyota" } }
+        };
+        _carRepository.Setup(x => x.GetByIdAsync(id)).ReturnsAsync(car);
+    
+        CarResponse expectedCar = new()
+        {
+            Id = id,
+            ModelName =  "Corolla",
+            ModelMakeName = "Toyota",
+            YearOfCreation = 2000
+        };
+    
+        CarResponse actualCar = await _carService.GetResponseByIdAsync(id);
+    
+        Assert.Equal(expectedCar.Id, actualCar.Id);
+        Assert.Equal(expectedCar.ModelMakeName, actualCar.ModelMakeName);
+        Assert.Equal(expectedCar.ModelName, actualCar.ModelName);
+        Assert.Equal(expectedCar.YearOfCreation, actualCar.YearOfCreation);
+    }
 
     [Fact]
     public async Task GetById_WhenGivenInvalidId_ThrowException()

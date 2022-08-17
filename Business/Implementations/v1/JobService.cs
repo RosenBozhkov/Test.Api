@@ -13,6 +13,7 @@ using Persistence.Entities.v1;
 using Persistence.Interfaces.v1;
 using Business.Validators.v1;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Business.Implementations.v1;
 
@@ -80,6 +81,8 @@ public class JobService : IJobService
     {
         _validatorService.Validate(model);
 
+        await ValidateNameNotExistAsync(model.Name);
+
         Job jobToCreate = _mapper.Map<Job>(model);
         _jobRepository.Add(jobToCreate);
         await _jobRepository.SaveChangesAsync();
@@ -112,5 +115,15 @@ public class JobService : IJobService
     {
         await _jobRepository.DeleteByIdAsync(id);
         await _jobRepository.SaveChangesAsync();
+    }
+
+    private async Task ValidateNameNotExistAsync(string name)
+    {
+        bool exists = await _jobRepository.Exists(name);
+
+        if (exists)
+        {
+            throw new InvalidNameException("Job with that name already exists.");
+        }
     }
 }

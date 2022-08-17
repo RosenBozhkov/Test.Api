@@ -98,19 +98,19 @@ public class CarControllerTests :
     //    Assert.Equal(2017, carResponses[1].YearOfCreation);
     //}
 
-    [Fact]
-    public async Task GetAll_givenNoCars_WillReturnNoCarResponses()
-    {
-        var httpResponseMessage = await _client.GetAsync("Car");
-
-        //Assert everything from here 
-        Assert.Equal(HttpStatusCode.OK, httpResponseMessage.StatusCode);
-        var body = await httpResponseMessage.Content.ReadAsStringAsync();
-
-        var responseBody = JsonConvert.DeserializeObject<ResponseContent<IList<CarResponse>>>(body)!;
-        Assert.Equal(0, responseBody.Result.Count);
-    }
-
+    //[Fact]
+    //public async Task GetAll_givenNoCars_WillReturnNoCarResponses()
+    //{
+    //    var httpResponseMessage = await _client.GetAsync("Car");
+    //
+    //    //Assert everything from here 
+    //    Assert.Equal(HttpStatusCode.OK, httpResponseMessage.StatusCode);
+    //    var body = await httpResponseMessage.Content.ReadAsStringAsync();
+    //
+    //    var responseBody = JsonConvert.DeserializeObject<ResponseContent<IList<CarResponse>>>(body)!;
+    //    Assert.Equal(0, responseBody.Result.Count);
+    //}
+    
     public void Dispose()
     {
         TestExtensions.ResetMetrics();
