@@ -20,7 +20,7 @@ public class CarResponse
     /// <summary>
     /// Owner of the Car
     /// </summary> 
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
     /// <summary>
     /// Car Make
     /// </summary>
