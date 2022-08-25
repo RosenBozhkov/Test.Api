@@ -107,7 +107,7 @@ public class CarService : ICarService
     }
 
     /// <summary>
-    /// Update a Car's owner and repairs cost modifier
+    /// Update the Car's owner and repairs cost modifier
     /// </summary>
     /// <param name="model"></param>
     public async Task<CarResponse> UpdateAsync(CarUpdateRequest model)
@@ -116,9 +116,12 @@ public class CarService : ICarService
 
         Car car = await GetByIdAsync(model.Id);
 
-        User newOwner = await _userService.GetUserByIdAsync(model.UserId);
-
-        car.User = newOwner;
+        if (model.UserId != Guid.Empty)
+        {
+            User newOwner = await _userService.GetUserByIdAsync(model.UserId);
+            car.User = newOwner;
+        }
+        
         car.Modifier = model.Modifier;
         await _carRepository.SaveChangesAsync();
 

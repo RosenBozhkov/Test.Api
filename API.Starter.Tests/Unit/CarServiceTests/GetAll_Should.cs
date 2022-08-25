@@ -55,7 +55,7 @@ public class GetAll_Should
             Model = new Model() { Name = "Accord", Make = new Make() { Name = "Honda" } }
         } };
 
-        _carRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(cars);
+        _carRepository.Setup(cR => cR.GetAllAsync()).ReturnsAsync(cars);
 
         IList<CarResponse> expectedCars = new List<CarResponse>() { new()
         {
@@ -88,7 +88,7 @@ public class GetAll_Should
         //Arange
         IList<Car> cars = new List<Car>();
 
-        _carRepository.Setup(x => x.GetAllAsync()).ReturnsAsync(cars);
+        _carRepository.Setup(cR => cR.GetAllAsync()).ReturnsAsync(cars);
 
         IList<CarResponse> expectedCars = new List<CarResponse>();
 
@@ -101,6 +101,3 @@ public class GetAll_Should
     }
 
 }
-
-
-

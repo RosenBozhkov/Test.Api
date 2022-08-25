@@ -35,7 +35,6 @@ public interface ICarService
     /// <summary>
     /// Update car
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="model"></param>
     Task<CarResponse> UpdateAsync(CarUpdateRequest model);
     /// <summary>

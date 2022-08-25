@@ -16,7 +16,7 @@ using Common.Resources;
 
 namespace API.Starter.Tests.Unit.CarServiceTests;
 
-public class GetById_Should
+public class Create_Should
 {
     private readonly CarService _carService;
 
@@ -26,7 +26,7 @@ public class GetById_Should
     private readonly Mock<IUserService> _userService;
     private readonly RequestState _requestState;
 
-    public GetById_Should()
+    public Create_Should()
     {
         _carRepository = new Mock<ICarRepository>();
         _validatorService = new Mock<IValidatorService>();
@@ -39,49 +39,42 @@ public class GetById_Should
     }
 
     [Fact]
-    public async Task ReturnCorrectCar_When_GivenValidId()
+    public async Task ReturnCorrectCarResponse_When_CreatedSuccessfully()
     {
-        //Arange
-        Car car = new()
-        {
-            Id = It.IsAny<Guid>(),
-            YearOfCreation = 2000,
-            Model = new Model() { Name = "Corolla", Make = new Make() { Name = "Toyota" } }
-        };
-        _carRepository.Setup(cR => cR.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(car);
+        //Arrange
+        User owner = new() { Id = It.IsAny<Guid>(), Username = "Roko" };
+        Model model = new() { Id = It.IsAny<Guid>(), Name = "Avensis", Make = new() { Id = It.IsAny<Guid>(), Name = "Toyota" } };
+        CarCreateRequest validRequest = new() { UserId = owner.Id, MakeName = model.Make.Name, ModelName = model.Name, YearOfCreation = 2010 };
 
-        CarResponse expectedCar = new()
-        {
-            Id = It.IsAny<Guid>(),
-            ModelName = "Corolla",
-            ModelMakeName = "Toyota",
-            YearOfCreation = 2000
-        };
+        _userService.Setup(uS => uS.GetUserByIdAsync(It.IsAny<Guid>())).ReturnsAsync(owner);
+        _modelService.Setup(mS => mS.CreateIfNotExist(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(model);
+
+        CarResponse expectedCar = new() { ModelMakeName = model.Make.Name, ModelName = model.Name, YearOfCreation = 2010, UserName = owner.Username };
 
         //Act
-        CarResponse actualCar = await _carService.GetResponseByIdAsync(It.IsAny<Guid>());
+        CarResponse actualCar = await _carService.CreateAsync(validRequest);
 
         //Assert
-        Assert.Equal(expectedCar.Id, actualCar.Id);
         Assert.Equal(expectedCar.ModelMakeName, actualCar.ModelMakeName);
         Assert.Equal(expectedCar.ModelName, actualCar.ModelName);
         Assert.Equal(expectedCar.YearOfCreation, actualCar.YearOfCreation);
-        _carRepository.Verify(cR => cR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
+        _userService.Verify(uS => uS.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once);
+        _modelService.Verify(mS => mS.CreateIfNotExist(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
     }
 
     [Fact]
-    public async Task ThrowExceptionAndCorrectMessage_When_GivenInvalidId()
+    public async Task ThrowExceptionAndCorrectMessage_When_UserNotExist()
     {
-        //Arange
+        //Arrange
         string expectedMessage = Messages.ResourceNotFound;
 
-        _carRepository.Setup(cR => cR.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(It.IsAny<Car>());
+        _userService.Setup(uS => uS.GetUserByIdAsync(It.IsAny<Guid>())).ThrowsAsync(new NotFoundException(Messages.ResourceNotFound));
 
         //Act & Assert
         NotFoundException ex =
-            await Assert.ThrowsAsync<NotFoundException>(async () => await _carService.GetResponseByIdAsync(It.IsAny<Guid>()));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await _carService.CreateAsync(new CarCreateRequest() { UserId = Guid.NewGuid()}));
 
         Assert.Equal(expectedMessage, ex.Message);
-        _carRepository.Verify(cR => cR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
+        _userService.Verify(uS => uS.GetUserByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
 }
