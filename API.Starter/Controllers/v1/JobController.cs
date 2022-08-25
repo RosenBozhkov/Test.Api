@@ -120,7 +120,6 @@ public class JobController : ControllerBase
     /// <summary>
     /// Endpoint for updating a job by Id
     /// </summary>
-    /// <param name="id"></param>
     /// <param name="model"></param>
     [Anonymous]
     [HttpPut()]

@@ -99,5 +99,4 @@ public class GetAll_Should
         Assert.Equal(expectedCars.Count, actualCars.Count);
         _carRepository.Verify(cR => cR.GetAllAsync(), Times.Once);
     }
-
 }

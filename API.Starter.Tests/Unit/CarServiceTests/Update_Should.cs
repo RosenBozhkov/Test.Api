@@ -86,4 +86,10 @@ public class Update_Should
         Assert.Equal(expectedCar.Modifier, actualCar.Modifier);
         _carRepository.Verify(cR => cR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
+
+    //TODO: nqma li tolkoz kv oda se oburka
+    public async Task ThrowExceptionWithCorrectMessage_When_CarNotFound()
+    {
+
+    }
 }
