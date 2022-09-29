@@ -17,7 +17,7 @@ public interface IVisitService
     /// Get By Id
     /// </summary>
     /// <param name="id"></param>
-    Task<VisitResponse> GetByIdAsync(Guid id);
+    Task<VisitResponse> GetResponseByIdAsync(Guid id);
     /// <summary>
     /// Get all
     /// </summary>

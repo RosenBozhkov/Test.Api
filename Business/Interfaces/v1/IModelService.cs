@@ -20,7 +20,7 @@ public interface IModelService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ModelResponse> GetByIdAsync(Guid id);
+    Task<ModelResponse> GetResponseByIdAsync(Guid id);
     /// <summary>
     /// Get all
     /// </summary>

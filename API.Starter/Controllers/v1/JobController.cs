@@ -83,7 +83,7 @@ public class JobController : ControllerBase
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(GetByIdAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        JobResponse job = await _jobService.GetByIdAsync(id);
+        JobResponse job = await _jobService.GetResponseByIdAsync(id);
 
         return new ResponseContent<JobResponse>
         {

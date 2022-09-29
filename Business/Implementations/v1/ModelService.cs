@@ -35,6 +35,7 @@ public class ModelService : IModelService
     /// <param name="mapper"></param>
     /// <param name="requestState"></param>
     /// <param name="logger"></param>
+    /// <param name="makeService"></param>
     public ModelService(IModelRepository modelRepository, IValidatorService validatorService, IMapper mapper,
         RequestState requestState, ILogger<ModelService> logger, IMakeService makeService)
     {
@@ -52,12 +53,17 @@ public class ModelService : IModelService
     /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<ModelResponse> GetByIdAsync(Guid id)
+    public async Task<ModelResponse> GetResponseByIdAsync(Guid id)
     {
-        Model model = await _modelRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Model model = await GetByIdAsync(id);
 
         return _mapper.Map<ModelResponse>(model);
+    }
+
+    private async Task<Model> GetByIdAsync(Guid id)
+    {
+        return await _modelRepository.GetByIdAsync(id)
+                          ?? throw new NotFoundException(Messages.ResourceNotFound);
     }
 
     /// <summary>
@@ -99,8 +105,7 @@ public class ModelService : IModelService
     {
         _validatorService.Validate(model);
 
-        Model modelToUpdate = await _modelRepository.GetByIdAsync(id)
-            ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Model modelToUpdate = await GetByIdAsync(id);
 
         await _modelRepository.SaveChangesAsync();
 
@@ -108,12 +113,14 @@ public class ModelService : IModelService
     }
 
     /// <summary>
-    /// Delete a model by id
+    /// Delete a model
     /// </summary>
     /// <param name="id"></param>
     public async Task DeleteAsync(Guid id)
     {
-        await _modelRepository.DeleteByIdAsync(id);
+        Model modelToDelete = await GetByIdAsync(id);
+
+        _modelRepository.Delete(modelToDelete);
         await _modelRepository.SaveChangesAsync();
     }
 

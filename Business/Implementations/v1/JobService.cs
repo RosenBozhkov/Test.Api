@@ -14,6 +14,7 @@ using Persistence.Interfaces.v1;
 using Business.Validators.v1;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
+using ErrorOr;
 
 namespace Business.Implementations.v1;
 
@@ -52,10 +53,9 @@ public class JobService : IJobService
     /// </summary>
     /// <param name="id"></param>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<JobResponse> GetByIdAsync(int id)
+    public async Task<JobResponse> GetResponseByIdAsync(int id)
     {
-        Job job = await _jobRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Job job = await GetByIdAsync(id);
 
         var result = _mapper.Map<JobResponse>(job);
         return result;
@@ -98,8 +98,7 @@ public class JobService : IJobService
     {
         _validatorService.Validate(model);
 
-        Job job = await _jobRepository.GetByIdAsync(model.Id)
-            ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Job job = await GetByIdAsync(model.Id);
 
         job.Price = model.Price;
         await _jobRepository.SaveChangesAsync();
@@ -113,8 +112,16 @@ public class JobService : IJobService
     /// <param name="id"></param>
     public async Task DeleteAsync(int id)
     {
-        await _jobRepository.DeleteByIdAsync(id);
+        Job jobToDelete = await GetByIdAsync(id);
+
+        _jobRepository.Delete(jobToDelete);
         await _jobRepository.SaveChangesAsync();
+    }
+
+    private async Task<Job> GetByIdAsync(int id)
+    {
+        return await _jobRepository.GetByIdAsync(id)
+            ?? throw new NotFoundException(Messages.ResourceNotFound);
     }
 
     private async Task ValidateNameNotExistAsync(string name)

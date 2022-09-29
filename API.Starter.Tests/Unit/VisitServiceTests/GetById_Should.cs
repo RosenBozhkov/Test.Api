@@ -61,7 +61,7 @@ public class GetById_Should
         };
 
         //Act
-        VisitResponse actualVisit = await _visitService.GetByIdAsync(It.IsAny<Guid>());
+        VisitResponse actualVisit = await _visitService.GetResponseByIdAsync(It.IsAny<Guid>());
 
         //Assert
         Assert.Equal(expectedVisit.Jobs.First().Price, actualVisit.Jobs.First().Price);
@@ -81,7 +81,7 @@ public class GetById_Should
 
         //Act & Assert
         NotFoundException ex =
-            await Assert.ThrowsAsync<NotFoundException>(async () => await _visitService.GetByIdAsync(It.IsAny<Guid>()));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await _visitService.GetResponseByIdAsync(It.IsAny<Guid>()));
 
         Assert.Equal(expectedMessage, ex.Message);
         _visitRepository.Verify(jR => jR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);

@@ -62,19 +62,6 @@ public class JobRepository : IJobRepository
     }
 
     /// <summary>
-    /// Delete a job by Id
-    /// </summary>
-    /// <param name="id"></param>
-    public async Task DeleteByIdAsync(int id)
-    {
-        Job? entity = await GetByIdAsync(id);
-        if (entity is not null)
-        {
-            Delete(entity);
-        }
-    }
-
-    /// <summary>
     /// Delete a job
     /// </summary>
     /// <param name="entity"></param>

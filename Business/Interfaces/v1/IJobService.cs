@@ -17,7 +17,7 @@ public interface IJobService
     /// Get By Id
     /// </summary>
     /// <param name="id"></param>
-    Task<JobResponse> GetByIdAsync(int id);
+    Task<JobResponse> GetResponseByIdAsync(int id);
     /// <summary>
     /// Get all
     /// </summary>

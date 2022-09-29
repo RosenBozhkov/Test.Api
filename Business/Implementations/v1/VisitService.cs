@@ -62,14 +62,14 @@ public class VisitService : IVisitService
     /// </summary>
     /// <param name="id"></param>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<VisitResponse> GetByIdAsync(Guid id)
+    public async Task<VisitResponse> GetResponseByIdAsync(Guid id)
     {
-        Visit visit = await _visitRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Visit visit = await GetByIdAsync(id);
 
         var result = _mapper.Map<VisitResponse>(visit);
         return result;
     }
+
 
     /// <summary>
     /// Get all visits
@@ -114,26 +114,37 @@ public class VisitService : IVisitService
     {
         _validatorService.Validate(model);
 
-        Visit visit = await _visitRepository.GetByIdAsync(model.Id)
-            ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Visit visitToUpdate = await GetByIdAsync(model.Id);
 
-        ValidateAdditionalPrice(visit.TotalPrice, model.AdditionalCost);
+        ValidateAdditionalPrice(visitToUpdate.TotalPrice, model.AdditionalCost);
 
-        BindFromRequest(model, visit);
+        BindFromRequest(model, visitToUpdate);
         await _visitRepository.SaveChangesAsync();
 
-        return _mapper.Map<VisitResponse>(visit);
+        return _mapper.Map<VisitResponse>(visitToUpdate);
     }
 
-
     /// <summary>
-    /// Delete a visit by id
+    /// Delete a visit
     /// </summary>
     /// <param name="id"></param>
     public async Task DeleteAsync(Guid id)
     {
-        await _visitRepository.DeleteByIdAsync(id);
+        Visit visitToDelete = await GetByIdAsync(id);
+
+        _visitRepository.Delete(visitToDelete);
         await _visitRepository.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Get Visit entity
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="NotFoundException"></exception>
+    private async Task<Visit> GetByIdAsync(Guid id)
+    {
+        return await _visitRepository.GetByIdAsync(id)
+            ?? throw new NotFoundException(Messages.ResourceNotFound);
     }
 
     /// <summary>

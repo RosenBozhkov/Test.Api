@@ -84,7 +84,7 @@ public class MakeController : ControllerBase
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(GetByIdAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        MakeResponse make = await _makeService.GetByIdAsync(id);
+        MakeResponse make = await _makeService.GetResponseByIdAsync(id);
 
         return new ResponseContent<MakeResponse>
         {

@@ -62,19 +62,6 @@ public class CarRepository : ICarRepository
     }
 
     /// <summary>
-    /// Delete a car by Id
-    /// </summary>
-    /// <param name="id"></param>
-    public async Task DeleteByIdAsync(Guid id)
-    {
-        Car? entity = await GetByIdAsync(id);
-        if (entity is not null)
-        {
-            Delete(entity);
-        }
-    }
-
-    /// <summary>
     /// Delete a car
     /// </summary>
     /// <param name="entity"></param>

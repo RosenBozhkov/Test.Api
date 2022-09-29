@@ -29,11 +29,6 @@ public interface IJobRepository
     /// <param name="id"></param>
     Task<Job?> GetByIdAsync(int id);
     /// <summary>
-    /// Delete a job by Id
-    /// </summary>
-    /// <param name="id"></param>
-    Task DeleteByIdAsync(int id);
-    /// <summary>
     /// Delete a job
     /// </summary>
     /// <param name="entity"></param>

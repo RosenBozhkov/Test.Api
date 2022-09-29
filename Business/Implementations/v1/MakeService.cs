@@ -52,17 +52,17 @@ public class MakeService : IMakeService
     /// <param name="id"></param>
     /// <returns></returns>
     /// <exception cref="NotFoundException"></exception>
-    public async Task<MakeResponse> GetByIdAsync(Guid id)
+    public async Task<MakeResponse> GetResponseByIdAsync(Guid id)
     {
-        Make make = await _makeRepository.GetByIdAsync(id)
-                  ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Make make = await GetByIdAsync(id);
 
         //int allCarsOfMake = make.Models.Select(m => m.Cars.Count).Sum();
-        
+
         var result = _mapper.Map<MakeResponse>(make);
         //result.Count = allCarsOfMake;
         return result;
     }
+
 
     /// <summary>
     /// Get all makes
@@ -110,21 +110,22 @@ public class MakeService : IMakeService
     {
         _validatorService.Validate(model);
 
-        Make make = await _makeRepository.GetByIdAsync(id)
-            ?? throw new NotFoundException(Messages.ResourceNotFound);
+        Make makeToUpdate = await GetByIdAsync(id);
 
         await _makeRepository.SaveChangesAsync();
 
-        return _mapper.Map<MakeResponse>(make);
+        return _mapper.Map<MakeResponse>(makeToUpdate);
     }
 
     /// <summary>
-    /// Delete a make by id
+    /// Delete a make
     /// </summary>
     /// <param name="id"></param>
     public async Task DeleteAsync(Guid id)
     {
-        await _makeRepository.DeleteByIdAsync(id);
+        Make makeToDelete = await GetByIdAsync(id);
+
+        _makeRepository.Delete(makeToDelete);
         await _makeRepository.SaveChangesAsync();
     }
 
@@ -137,5 +138,11 @@ public class MakeService : IMakeService
         var make = await _makeRepository.GetOrCreateAsync(name);
 
         return make;
+    }
+
+    private async Task<Make> GetByIdAsync(Guid id)
+    {
+        return await _makeRepository.GetByIdAsync(id)
+                          ?? throw new NotFoundException(Messages.ResourceNotFound);
     }
 }

@@ -84,7 +84,7 @@ public class ModelController : ControllerBase
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(GetByIdAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        ModelResponse model = await _modelService.GetByIdAsync(id);
+        ModelResponse model = await _modelService.GetResponseByIdAsync(id);
 
         return new ResponseContent<ModelResponse>
         {

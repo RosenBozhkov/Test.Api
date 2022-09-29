@@ -18,7 +18,7 @@ public interface IMakeService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<MakeResponse> GetByIdAsync(Guid id);
+    Task<MakeResponse> GetResponseByIdAsync(Guid id);
     /// <summary>
     /// Get all
     /// </summary>

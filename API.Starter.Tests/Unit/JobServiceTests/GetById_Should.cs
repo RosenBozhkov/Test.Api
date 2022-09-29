@@ -55,7 +55,7 @@ public class GetById_Should
         };
 
         //Act
-        JobResponse actualJob = await _jobService.GetByIdAsync(It.IsAny<int>());
+        JobResponse actualJob = await _jobService.GetResponseByIdAsync(It.IsAny<int>());
 
         //Assert
         Assert.Equal(expectedJob.Id, actualJob.Id);
@@ -74,7 +74,7 @@ public class GetById_Should
 
         //Act & Assert
         NotFoundException ex =
-            await Assert.ThrowsAsync<NotFoundException>(async () => await _jobService.GetByIdAsync(It.IsAny<int>()));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await _jobService.GetResponseByIdAsync(It.IsAny<int>()));
 
         Assert.Equal(expectedMessage, ex.Message);
         _jobRepository.Verify(jR => jR.GetByIdAsync(It.IsAny<int>()), Times.Once);

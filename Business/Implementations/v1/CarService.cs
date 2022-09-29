@@ -134,7 +134,9 @@ public class CarService : ICarService
     /// <param name="id"></param>
     public async Task DeleteAsync(Guid id)
     {
-        await _carRepository.DeleteByIdAsync(id);
+        Car carToDelete = await GetByIdAsync(id);
+
+        _carRepository.Delete(carToDelete);
         await _carRepository.SaveChangesAsync();
     }
 }

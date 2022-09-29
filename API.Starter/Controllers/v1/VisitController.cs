@@ -82,7 +82,7 @@ public class VisitController
         //using var activity = _telemetryProvider.StartActivity(ControllerName, nameof(GetByIdAsync));
         //_metrics.Measure.Counter.Increment(MetricsRegistry.DemoCounter);
 
-        VisitResponse visit = await _visitService.GetByIdAsync(id);
+        VisitResponse visit = await _visitService.GetResponseByIdAsync(id);
 
         return new ResponseContent<VisitResponse>
         {

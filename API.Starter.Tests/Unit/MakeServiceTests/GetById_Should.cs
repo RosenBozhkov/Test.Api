@@ -53,7 +53,7 @@ public class GetById_Should
         };
 
         //Act
-        MakeResponse actualMake = await _makeService.GetByIdAsync(It.IsAny<Guid>());
+        MakeResponse actualMake = await _makeService.GetResponseByIdAsync(It.IsAny<Guid>());
 
         //Assert
         Assert.Equal(expectedMake.Id, actualMake.Id);
@@ -71,7 +71,7 @@ public class GetById_Should
 
         //Act & Assert
         NotFoundException ex =
-            await Assert.ThrowsAsync<NotFoundException>(async () => await _makeService.GetByIdAsync(It.IsAny<Guid>()));
+            await Assert.ThrowsAsync<NotFoundException>(async () => await _makeService.GetResponseByIdAsync(It.IsAny<Guid>()));
 
         Assert.Equal(expectedMessage, ex.Message);
         _makeRepository.Verify(mR => mR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);

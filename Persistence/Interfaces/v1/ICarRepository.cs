@@ -30,11 +30,6 @@ public interface ICarRepository
     /// <returns></returns>
     Task<Car?> GetByIdAsync(Guid id);
     /// <summary>
-    /// Delete a car by Id
-    /// </summary>
-    /// <param name="id"></param>
-    Task DeleteByIdAsync(Guid id);
-    /// <summary>
     /// Delete a car
     /// </summary>
     /// <param name="entity"></param>
