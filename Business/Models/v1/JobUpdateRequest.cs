@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Business.Models.v1;
 
 /// <summary>
-/// Request for updating a Job
+/// Model for updating a Job
 /// </summary>
 public class JobUpdateRequest
 {

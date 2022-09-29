@@ -43,7 +43,7 @@ public class Update_Should
 
         if (validRequest.Price < 0)
         {
-            _validatorService.Setup(vS => vS.Validate(It.IsAny<JobCreateRequest>())).Throws<Exception>();
+            _validatorService.Setup(vS => vS.Validate(It.IsAny<JobUpdateRequest>())).Throws<Exception>();
         }
         Job job = new() { Name = "Oil Change", Price = 10, Id = It.IsAny<int>() };
 
@@ -65,7 +65,7 @@ public class Update_Should
         JobUpdateRequest validRequest = new() { Id = It.IsAny<int>(), Price = 5 };
         string expectedMessage = Messages.ResourceNotFound;
 
-        _jobRepository.Setup(jR => jR.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(It.IsAny<Job>());
+        _jobRepository.Setup(jR => jR.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(It.IsAny<Job>);
 
         //Act & Assert
         NotFoundException ex = await Assert.ThrowsAsync<NotFoundException>(
@@ -73,7 +73,6 @@ public class Update_Should
 
         Assert.Equal(expectedMessage, ex.Message);
         _jobRepository.Verify(jR => jR.GetByIdAsync(It.IsAny<int>()), Times.Once);
-
     }
 
     [Fact]
@@ -81,6 +80,7 @@ public class Update_Should
     {
         //Arrange
         JobUpdateRequest request = new() { Price = -100 };
+        string expectedMessage = Messages.ResourceNotFound;
 
         _jobRepository.Setup(jR => jR.Exists(It.IsAny<string>())).ReturnsAsync(false);
 

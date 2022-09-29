@@ -1,4 +1,5 @@
 ﻿using inacs.v8.nuget.DevAttributes;
+using Persistence.Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +14,7 @@ namespace Persistence.Entities.v1;
 /// </summary>
 [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
 [Table("ApiStarter_Models")]
-public class Model
+public class Model : BaseEntity
 {
     /// <summary>
     /// Id

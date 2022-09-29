@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using inacs.v8.nuget.DevAttributes;
+using Persistence.Entities.Abstract;
 
 namespace Persistence.Entities.v1;
 
@@ -9,7 +10,7 @@ namespace Persistence.Entities.v1;
 /// </summary>
 [Developer("Rosen Bozhkov", "rosen.bozhkov@itsoft.bg")]
 [Table("ApiStarter_Cars")]
-public class Car
+public class Car : BaseEntity
 {
     /// <summary>
     /// Id

@@ -53,7 +53,7 @@ public class Create_Should
         //Act
         JobResponse actualJob = await _jobService.CreateAsync(validRequest);
         
-        ////Assert
+        //Assert
         Assert.Equal(expectedJob.Name, actualJob.Name);
         Assert.Equal(expectedJob.Price, actualJob.Price);
         _jobRepository.Verify(jR => jR.Exists(It.IsAny<string>()), Times.Once);

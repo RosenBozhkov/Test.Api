@@ -11,7 +11,6 @@ using inacs.v8.nuget.Core.Models;
 using Microsoft.Extensions.Logging;
 using Persistence.Entities.v1;
 using Persistence.Interfaces.v1;
-using Business.Validators.v1;
 using System.Linq;
 
 namespace Business.Implementations.v1;
@@ -79,6 +78,7 @@ public class VisitService : IVisitService
     {
         var visits = await _visitRepository.GetAllAsync();
 
+        //TODO: ADD PAGE NESHTOSI
         var result = _mapper.Map<IList<VisitResponse>>(visits);
 
         return result;
@@ -92,13 +92,12 @@ public class VisitService : IVisitService
     {
         Car car = await _carService.GetByIdAsync(model.CarId);
 
-        //Flow is not OK, but i keep it
         ICollection<Job> jobs = _jobRepository.GetValidJobs(model.JobIds);
 
         float sum = jobs.Select(j => j.Price).Sum();
         float totalSum = sum * car.Modifier;
 
-        Visit visitToCreate = new() { Car = car, Jobs = jobs, CheckedIn = DateTime.UtcNow, TotalPrice = totalSum };
+        Visit visitToCreate = new() { Car = car, Jobs = jobs, TotalPrice = totalSum };
 
         _visitRepository.Add(visitToCreate);
         await _visitRepository.SaveChangesAsync();
@@ -118,14 +117,14 @@ public class VisitService : IVisitService
         Visit visit = await _visitRepository.GetByIdAsync(model.Id)
             ?? throw new NotFoundException(Messages.ResourceNotFound);
 
-        ValidateAdditionalPriceReasonable(visit.TotalPrice, model.AdditionalCost);
+        ValidateAdditionalPrice(visit.TotalPrice, model.AdditionalCost);
 
-        visit.TotalPrice += model.AdditionalCost;
-        visit.Completion = DateTime.UtcNow;
+        BindFromRequest(model, visit);
         await _visitRepository.SaveChangesAsync();
 
         return _mapper.Map<VisitResponse>(visit);
     }
+
 
     /// <summary>
     /// Delete a visit by id
@@ -137,11 +136,28 @@ public class VisitService : IVisitService
         await _visitRepository.SaveChangesAsync();
     }
 
-    private static void ValidateAdditionalPriceReasonable(float price, int additional)
+    /// <summary>
+    /// Additional price cannot exceed 10% of the total
+    /// </summary>
+    /// <param name="price"></param>
+    /// <param name="additional"></param>
+    /// <exception cref="NotFoundException"></exception>
+    private static void ValidateAdditionalPrice(float price, int additional)
     {
         if (price / 10 <= additional)
         {
             throw new NotFoundException("Price cannot exceed 10% of the total price of a given Visit to the Shop");
         }
+    }
+
+    /// <summary>
+    /// Updates DB Visit from the Request
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="visit"></param>
+    private static void BindFromRequest(VisitFinishRequest model, Visit visit)
+    {
+        visit.TotalPrice += model.AdditionalCost;
+        visit.Completion = DateTime.UtcNow;
     }
 }

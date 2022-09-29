@@ -90,6 +90,16 @@ public class Update_Should
     //TODO: nqma li tolkoz kv oda se oburka
     public async Task ThrowExceptionWithCorrectMessage_When_CarNotFound()
     {
+        //Arrange
+        string expectedMessage = Messages.ResourceNotFound;
 
+        _carRepository.Setup(cR => cR.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(It.IsAny<Car>);
+
+        //Act & Assert
+        NotFoundException ex = await Assert.ThrowsAsync<NotFoundException>(
+            async () => await _carService.UpdateAsync(It.IsAny<CarUpdateRequest>()));
+
+        Assert.Equal(expectedMessage, ex.Message);
+        _carRepository.Verify(cR => cR.GetByIdAsync(It.IsAny<Guid>()), Times.Once);
     }
 }
